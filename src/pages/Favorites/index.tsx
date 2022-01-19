@@ -1,26 +1,28 @@
+import { useHistory } from "react-router-dom";
+
 import { MovieBoxLogo } from "../../assets";
+
+import { FiArrowLeft } from "react-icons/fi";
 
 import Card from "../../components/shimmer/Card";
 import MovieCard from "../../components/MovieCard";
 
 import * as S from "./styles";
 
-export default function Home() {
+export default function Favorites() {
 
   const fakeArr = Array.from(Array(20).keys());
 
-  const isLoading = false;
+  const history = useHistory()
 
   return (
     <>
       <S.Header>
-        <nav>
-          <MovieBoxLogo />
-          <S.Link to="/favorites">Favorites</S.Link>
-        </nav>
+        <FiArrowLeft size={24} onClick={() => history.goBack()} />
+        <MovieBoxLogo />
       </S.Header>
 
-      <S.PageTitle>Movies</S.PageTitle>
+      <S.PageTitle>Favorites</S.PageTitle>
 
       <S.Main>
 

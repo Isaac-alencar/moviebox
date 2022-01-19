@@ -3,22 +3,20 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   width: 100%;
   height: 8rem;
+  padding: 2rem;
 
   background-color: var(--black-10);
+  backdrop-filter: blur(40px);
 
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem;
-  }
-
-  @media (min-width: 768px) {
-    nav {
-      padding: 2rem 12rem;
-    }
+  svg {
+    color: var(--gray-50);
+    cursor: pointer;
   }
 `;
 
