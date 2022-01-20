@@ -1,4 +1,7 @@
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+
+import api from "../../services/api";
 
 import { AiFillStar } from "react-icons/ai";
 import { FiArrowLeft } from "react-icons/fi";
@@ -7,8 +10,35 @@ import { MovieBoxLogo } from "../../assets";
 
 import * as S from "./styles";
 
+type Genres = {
+  id: number;
+  name: string;
+};
+
+type MovieType = {
+  id: number;
+  poster_path: string;
+  original_title: string;
+  overview: string;
+  vote_average: number;
+  release_date: number;
+  runtime: number;
+  genres: Genres[];
+};
+
 export default function Movie() {
   const history = useHistory();
+
+  const href = useLocation();
+  const movieId = href.pathname.split("/")[2];
+
+  const [movie, setMovie] = useState<MovieType | undefined>();
+
+  useEffect(() => {
+    api
+      .get(`/movie/${movieId}?api_key=${process.env.REACT_APP_API_KEY}`)
+      .then((response) => setMovie(response.data));
+  }, [movieId]);
 
   return (
     <>
@@ -19,32 +49,23 @@ export default function Movie() {
 
       <S.Main>
         <S.BackdropPoster
-          src="https://image.tmdb.org/t/p/w500/oKIBhzZzDX07SoE2bOLhq2EE8rf.jpg"
-          alt="Mr Robot"
+          src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+          alt={movie?.original_title}
         />
 
         <S.Details>
           <S.MoviePoster
-            src="https://image.tmdb.org/t/p/w500/oKIBhzZzDX07SoE2bOLhq2EE8rf.jpg"
-            alt="Mr Robot"
+            src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+            alt={movie?.original_title}
           />
 
           <div>
-            <h4>Mr Robot</h4>
-            <p>
-              A contemporary and culturally resonant drama about a young
-              programmer, Elliot, who suffers from a debilitating anti-social
-              disorder and decides that he can only connect to people by hacking
-              them. He wields his skills as a weapon to protect the people that
-              he cares about. Elliot will find himself in the intersection
-              between a cybersecurity firm he works for and the underworld
-              organizations that are recruiting him to bring down corporate
-              America.
-            </p>
+            <h4>{movie?.original_title}</h4>
+            <p>{movie?.overview}</p>
 
             <S.Rate>
               <AiFillStar size={24} />
-              <span>10.0</span>
+              <span>{movie?.vote_average}</span>
             </S.Rate>
 
             <S.TechnicalDetails>
@@ -54,15 +75,17 @@ export default function Movie() {
               </span>
               <span>
                 Release Date
-                <strong>2015-06-24</strong>
+                <strong>{movie?.release_date}</strong>
               </span>
               <span>
                 Run Time
-                <strong>190 mins</strong>
+                <strong>{movie?.runtime} mins</strong>
               </span>
               <span>
                 Genres
-                <strong>Adventure, Science Fiction, Action</strong>
+                <strong>
+                  {movie?.genres.map(({ name }: Genres) => name).join(", ")}
+                </strong>
               </span>
             </S.TechnicalDetails>
           </div>

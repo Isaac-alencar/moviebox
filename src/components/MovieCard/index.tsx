@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
-import * as S from './styles';
+import * as S from "./styles";
 
-export default function MovieCard() {
+type MovieType = {
+  id: number;
+  original_title: string;
+  poster_path: string;
+};
 
-    const [isFavorite, setIsFavorite] = useState<boolean>(false);
+export default function MovieCard({ id, original_title, poster_path }: MovieType) {
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-    const toggleFavorite = () => setIsFavorite((prevState) => !prevState);
+  const toggleFavorite = () => setIsFavorite((prevState) => !prevState);
 
   return (
     <S.Container>
@@ -20,11 +25,11 @@ export default function MovieCard() {
         )}
       </S.Favorite>
       <img
-        src="https://image.tmdb.org/t/p/w500/oKIBhzZzDX07SoE2bOLhq2EE8rf.jpg"
-        alt="Mr Robot"
+        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+        alt={original_title}
       />
       <div>
-        <S.Link to="/movie/id">Mr Robot</S.Link>
+        <S.Link to={`/movie/${id}`}>{original_title}</S.Link>
       </div>
     </S.Container>
   );

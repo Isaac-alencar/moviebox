@@ -29,12 +29,12 @@ export const BackdropPoster = styled.img`
   width: 45rem;
 
   margin: 2rem auto;
-
   object-fit: cover;
   border-radius: 24px;
 
-  @media (max-width: 425px) {
+  @media (max-width: 1100px) {
     width: 100%;
+    object-fit: contain;
   }
 
   @media (min-width: 1024px) {
