@@ -1,19 +1,41 @@
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+
+import { MovieType } from "../../common/types";
+
+import {
+  addFavorite,
+  removeFavorite,
+} from "../../store/reducers/favoriteSlice";
 
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
 import * as S from "./styles";
 
-type MovieType = {
-  id: number;
-  original_title: string;
-  poster_path: string;
-};
+export type MovieCardData = Omit<
+  MovieType,
+  "overview" | "vote_average" | "release_date" | "runtime" | "genres"
+>;
 
-export default function MovieCard({ id, original_title, poster_path }: MovieType) {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+export default function MovieCard(movieData: MovieCardData) {
+  const { movies } = useAppSelector((state) => state.favorites);
 
-  const toggleFavorite = () => setIsFavorite((prevState) => !prevState);
+  const dispatch = useAppDispatch();
+
+  const [isFavorite, setIsFavorite] = useState<boolean>(() => {
+    const isFavoriteMovie = movies.find((movie) => movie.id === movieData.id);
+    return !!isFavoriteMovie;
+  });
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(movieData.id));
+      setIsFavorite((prevState) => !prevState);
+    } else {
+      dispatch(addFavorite(movieData));
+      setIsFavorite((prevState) => !prevState);
+    }
+  };
 
   return (
     <S.Container>
@@ -25,11 +47,13 @@ export default function MovieCard({ id, original_title, poster_path }: MovieType
         )}
       </S.Favorite>
       <img
-        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-        alt={original_title}
+        src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
+        alt={movieData.original_title}
       />
       <div>
-        <S.Link to={`/movie/${id}`}>{original_title}</S.Link>
+        <S.Link to={`/movie/${movieData.id}`}>
+          {movieData.original_title}
+        </S.Link>
       </div>
     </S.Container>
   );

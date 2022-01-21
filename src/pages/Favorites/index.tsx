@@ -1,19 +1,18 @@
 import { useHistory } from "react-router-dom";
 
-import { MovieBoxLogo } from "../../assets";
+import { useAppSelector } from "../../hooks/useStore";
 
+import { MovieBoxLogo } from "../../assets";
 import { FiArrowLeft } from "react-icons/fi";
 
-import Card from "../../components/shimmer/Card";
 import MovieCard from "../../components/MovieCard";
 
 import * as S from "./styles";
 
 export default function Favorites() {
+  const { movies } = useAppSelector((state) => state.favorites);
 
-  const fakeArr = Array.from(Array(20).keys());
-
-  const history = useHistory()
+  const history = useHistory();
 
   return (
     <>
@@ -25,17 +24,19 @@ export default function Favorites() {
       <S.PageTitle>Favorites</S.PageTitle>
 
       <S.Main>
-
         <S.MovieList>
-          {fakeArr.map((key) => {
+          {movies.map(({ id, original_title, poster_path }) => {
             return (
-              <li key={key}>
-                {isLoading ? <Card /> : <MovieCard />}
+              <li key={id}>
+                <MovieCard
+                  id={id}
+                  original_title={original_title}
+                  poster_path={poster_path}
+                />
               </li>
             );
           })}
         </S.MovieList>
-
       </S.Main>
     </>
   );

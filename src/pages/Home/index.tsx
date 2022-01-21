@@ -5,15 +5,9 @@ import api from "../../services/api";
 import { MovieBoxLogo } from "../../assets";
 
 import Card from "../../components/shimmer/Card";
-import MovieCard from "../../components/MovieCard";
+import MovieCard, { MovieCardData } from "../../components/MovieCard";
 
 import * as S from "./styles";
-
-type Movie = {
-  id: number;
-  poster_path: string;
-  original_title: string;
-};
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -49,17 +43,19 @@ export default function Home() {
                   </li>
                 );
               })
-            : movies.map(({ id, poster_path, original_title }: Movie) => {
-                return (
-                  <li key={id}>
-                    <MovieCard
-                      id={id}
-                      original_title={original_title}
-                      poster_path={poster_path}
-                    />
-                  </li>
-                );
-              })}
+            : movies.map(
+                ({ id, poster_path, original_title }: MovieCardData) => {
+                  return (
+                    <li key={id}>
+                      <MovieCard
+                        id={id}
+                        original_title={original_title}
+                        poster_path={poster_path}
+                      />
+                    </li>
+                  );
+                }
+              )}
         </S.MovieList>
       </S.Main>
     </>

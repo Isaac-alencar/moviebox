@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
+import { MovieType } from "../../common/types";
+
 import api from "../../services/api";
 
 import { AiFillStar } from "react-icons/ai";
@@ -10,29 +12,13 @@ import { MovieBoxLogo } from "../../assets";
 
 import * as S from "./styles";
 
-type Genres = {
-  id: number;
-  name: string;
-};
-
-type MovieType = {
-  id: number;
-  poster_path: string;
-  original_title: string;
-  overview: string;
-  vote_average: number;
-  release_date: number;
-  runtime: number;
-  genres: Genres[];
-};
-
 export default function Movie() {
   const history = useHistory();
 
   const href = useLocation();
   const movieId = href.pathname.split("/")[2];
 
-  const [movie, setMovie] = useState<MovieType | undefined>();
+  const [movie, setMovie] = useState<MovieType>();
 
   useEffect(() => {
     api
@@ -84,7 +70,7 @@ export default function Movie() {
               <span>
                 Genres
                 <strong>
-                  {movie?.genres.map(({ name }: Genres) => name).join(", ")}
+                  {movie?.genres.map(({ name }) => name).join(", ")}
                 </strong>
               </span>
             </S.TechnicalDetails>
