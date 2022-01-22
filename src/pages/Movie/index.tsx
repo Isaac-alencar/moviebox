@@ -14,7 +14,13 @@ export default function Movie() {
   const href = useLocation();
   const movieId = href.pathname.split("/")[2];
 
-  const { data: movie } = useFetchMovieById(movieId);
+  const { data: movie, isLoading } = useFetchMovieById(movieId);
+
+  if (isLoading) {
+    return (
+      <h1>Loading...</h1>
+    )
+  }
 
   return (
     <>
