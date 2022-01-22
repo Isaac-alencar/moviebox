@@ -1,9 +1,5 @@
-import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-
-import { MovieType } from "../../common/types";
-
-import api from "../../services/api";
+import useFetchMovieById from "../../hooks/useFetchMovieById";
 
 import { AiFillStar } from "react-icons/ai";
 import { FiArrowLeft } from "react-icons/fi";
@@ -18,13 +14,7 @@ export default function Movie() {
   const href = useLocation();
   const movieId = href.pathname.split("/")[2];
 
-  const [movie, setMovie] = useState<MovieType>();
-
-  useEffect(() => {
-    api
-      .get(`/movie/${movieId}?api_key=${process.env.REACT_APP_API_KEY}`)
-      .then((response) => setMovie(response.data));
-  }, [movieId]);
+  const { data: movie } = useFetchMovieById(movieId);
 
   return (
     <>

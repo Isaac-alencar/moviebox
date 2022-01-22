@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-
-import api from "../../services/api";
+import useFetchMovies from "../../hooks/useFetchAllMovies";
 
 import { MovieBoxLogo } from "../../assets";
 
@@ -10,17 +8,9 @@ import MovieCard, { MovieCardData } from "../../components/MovieCard";
 import * as S from "./styles";
 
 export default function Home() {
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const fakeArr = Array.from(Array(20).keys());
 
-  useEffect(() => {
-    api
-      .get(`/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`)
-      .then((response) => setMovies(response.data.results))
-      .finally(() => setIsLoading((prevState) => !prevState));
-  }, []);
+  const { data: movies, isLoading } = useFetchMovies();
 
   return (
     <>
@@ -43,7 +33,7 @@ export default function Home() {
                   </li>
                 );
               })
-            : movies.map(
+            : movies?.map(
                 ({ id, poster_path, original_title }: MovieCardData) => {
                   return (
                     <li key={id}>
