@@ -29,6 +29,8 @@
   </div>
 </div>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0de8de61-30ac-455e-99ce-5cd9d4c30b6a/deploy-status)](https://app.netlify.com/sites/zealous-hamilton-a54e0a/deploys)
+
 <!-- Layout section -->
 # Layout  
 
