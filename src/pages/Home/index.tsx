@@ -1,4 +1,6 @@
-import useFetchMovies from "../../hooks/useFetchAllMovies";
+import { useState } from "react"; 
+
+import usePaginatedFetch from "../../hooks/usePaginatedFetch";
 
 import { MovieBoxLogo } from "../../assets";
 
@@ -10,7 +12,9 @@ import * as S from "./styles";
 export default function Home() {
   const fakeArr = Array.from(Array(20).keys());
 
-  const { data: movies, isLoading } = useFetchMovies();
+  const [page, setPage] = useState<number>(1);
+
+  const { data: movies, isLoading } = usePaginatedFetch(page);
 
   return (
     <>
@@ -47,6 +51,20 @@ export default function Home() {
                 }
               )}
         </S.MovieList>
+        <S.Navigation>
+          <S.NavigationButton
+            onClick={() => setPage((prevPage) => prevPage - 1)}
+            disabled={page === 1 ? true : false}
+          >
+            Prev Page
+          </S.NavigationButton>
+          <S.NavigationButton
+            onClick={() => setPage((prevPage) => prevPage + 1)}
+            disabled={false}
+          >
+            Next Page
+          </S.NavigationButton>
+        </S.Navigation>
       </S.Main>
     </>
   );
