@@ -51,7 +51,7 @@
 
 - register and create an API key on themoviedb.org (https://developers.themoviedb.org/3/getting-started/introduction)
 - create an .env file in the root of project with the following content
-<pre> REACT_APP_API_KEY=<your api key> </pre>
+<pre> REACT_APP_API_KEY=&ltyour api key&gt </pre>
 
 
 
