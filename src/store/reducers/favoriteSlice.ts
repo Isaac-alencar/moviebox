@@ -1,54 +1,49 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { MovieType } from "../../common/types";
-
-type Movie = Omit<
-  MovieType,
-  "overview" | "vote_average" | "release_date" | "runtime" | "genres"
->;
+import { MovieOrShowType } from "../../common/types";
 
 interface FavoriteState {
-  movies: Movie[];
+    movies: MovieOrShowType[];
 }
 
 const initialState: FavoriteState = {
-  movies: [],
+    movies: []
 };
 
 const addFavoriteMovie = (
-  state: FavoriteState,
-  action: PayloadAction<Movie>
+    state: FavoriteState,
+    action: PayloadAction<MovieOrShowType>
 ) => {
-  const existingMovie = state.movies.find(
-    (movie) => movie.id === action.payload.id
-  );
-  if (!existingMovie) {
-    state.movies.push(action.payload);
-  }
+    const existingMovie = state.movies.find(
+        (movie) => movie.id === action.payload.id
+    );
+    if (!existingMovie) {
+        state.movies.push(action.payload);
+    }
 };
 
 const removeFavoriteMovie = (
-  state: FavoriteState,
-  action: PayloadAction<number>
+    state: FavoriteState,
+    action: PayloadAction<number>
 ) => {
-  const newFavoriteMovieList = state.movies.filter(
-    (movie) => movie.id !== action.payload
-  );
-  state.movies = newFavoriteMovieList;
+    const newFavoriteMovieList = state.movies.filter(
+        (movie) => movie.id !== action.payload
+    );
+    state.movies = newFavoriteMovieList;
 };
 
 export const favoritesSlice = createSlice({
-  name: "favorites",
-  initialState,
-  reducers: {
-    addFavoriteMovie,
-    removeFavoriteMovie,
-  },
+    name: "favorites",
+    initialState,
+    reducers: {
+        addFavoriteMovie,
+        removeFavoriteMovie
+    }
 });
 
 export const {
-  addFavoriteMovie: addFavorite,
-  removeFavoriteMovie: removeFavorite,
+    addFavoriteMovie: addFavorite,
+    removeFavoriteMovie: removeFavorite
 } = favoritesSlice.actions;
 
 export default favoritesSlice.reducer;

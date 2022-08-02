@@ -10,34 +10,35 @@ import MovieCard from "../../components/MovieCard";
 import * as S from "./styles";
 
 export default function Favorites() {
-  const { movies } = useAppSelector((state) => state.favorites);
+    const { movies } = useAppSelector((state) => state.favorites);
 
-  const history = useHistory();
+    const history = useHistory();
 
-  return (
-    <>
-      <S.Header>
-        <FiArrowLeft size={24} onClick={() => history.goBack()} />
-        <MovieBoxLogo />
-      </S.Header>
+    return (
+        <>
+            <S.Header>
+                <FiArrowLeft size={24} onClick={() => history.goBack()} />
+                <MovieBoxLogo />
+            </S.Header>
 
-      <S.PageTitle>Favorites</S.PageTitle>
+            <S.PageTitle>Favorites</S.PageTitle>
 
-      <S.Main>
-        <S.MovieList>
-          {movies.map(({ id, original_title, poster_path }) => {
-            return (
-              <li key={id}>
-                <MovieCard
-                  id={id}
-                  original_title={original_title}
-                  poster_path={poster_path}
-                />
-              </li>
-            );
-          })}
-        </S.MovieList>
-      </S.Main>
-    </>
-  );
+            <S.Main>
+                <S.MovieList>
+                    {movies.map(({ id, name, poster_path, type }) => {
+                        return (
+                            <li key={id}>
+                                <MovieCard
+                                    id={id}
+                                    name={name}
+                                    poster_path={poster_path}
+                                    type={type}
+                                />
+                            </li>
+                        );
+                    })}
+                </S.MovieList>
+            </S.Main>
+        </>
+    );
 }
